@@ -4,13 +4,11 @@ services:
   node:
     build: ./node
     container_name: node
-    entrypoint: dockerize -wait tcp://mysql:3306 -timeout 20s node index.js
+    entrypoint: dockerize -wait tcp://mysql:3306 -timeout 20s sh -c "npm install && node index.js"
     volumes:
       - ./node:/usr/src/app
     networks:
       - nginx-node-network
-    ports:
-      - 3000:3000
     depends_on:
       - mysql
   
@@ -37,6 +35,8 @@ services:
       - "8080:80"
     networks:
       - nginx-node-network
+    depends_on:
+      - node
 
 networks:
   nginx-node-network:

@@ -1,8 +1,4 @@
-FROM node:15
-
-WORKDIR /usr/src/app
-
-COPY . .
+FROM node:18
 
 ENV DOCKERIZE_VERSION v0.6.1
 
@@ -10,8 +6,6 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-RUN npm install
+USER node
 
-EXPOSE 3000
-
-# CMD [ "node", "index.js" ]
+WORKDIR /usr/src/app
